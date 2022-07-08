@@ -21,7 +21,8 @@ public class CustomView extends View {
     private static final int WHAT_UPDATE = 1;
     private static final long DELAY_MS = 33;
     private static final int DELTA = 20;
-    private int direction = 1;
+    private int x_direction = 1;
+    private int y_direction = 1;
     private final Drawable drawable;
     private Rect rect = new Rect();
     private Point point = new Point();
@@ -31,14 +32,22 @@ public class CustomView extends View {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            if (direction == 1)
+            if (y_direction == 1)
                 if (point.y+DELTA+IMAGE_SIZE <= size.y)
                     point.y += DELTA;
-                else direction *= -1;
-            if (direction == -1)
+                else y_direction *= -1;
+            if (y_direction == -1)
                 if (point.y+DELTA >= 0)
                     point.y -= DELTA;
-                else direction *= -1;
+                else y_direction *= -1;
+            if (x_direction == 1)
+                if (point.x+DELTA+IMAGE_SIZE <= size.x)
+                    point.x += DELTA;
+                else x_direction *= -1;
+            if (x_direction == -1)
+                if (point.x+DELTA >= 0)
+                    point.x -= DELTA;
+                else x_direction *= -1;
             invalidate();
             handler.sendEmptyMessageDelayed(WHAT_UPDATE, DELAY_MS);
         }
